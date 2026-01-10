@@ -1,0 +1,16 @@
+body {
+    background-color: #585858;
+}
+
+#creatorCanvas {
+    background: white;
+    border: 1px solid black;
+    margin-left: 25%;
+}
+
+#infoBox {
+    background: white;
+    margin-left: 25%;
+    width: 1000px;
+    padding: 13px;
+}
