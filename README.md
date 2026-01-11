@@ -7,8 +7,6 @@ Web-based character creator built for extensibility
 
 - Write TOML spec for extensions
 
-- Figure out TOML parsing in JS
-
 - Figure out if I can do user-end extensions; if I can let people upload extensions from the 
 tool that would be really cool
 
