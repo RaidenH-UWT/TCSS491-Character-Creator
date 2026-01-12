@@ -1,0 +1,4 @@
+name = "Demo Extension"
+description = "Demonstrates the structure of an extension."
+author = "Raiden H"
+version = "0.1.0"
