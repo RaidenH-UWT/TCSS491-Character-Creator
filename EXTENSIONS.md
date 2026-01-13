@@ -63,7 +63,7 @@ some restrictions, so check the comments!)
 - Resource: Individual files inside an extension, excepting the `specification.toml` which is
 special.
 
-- Extension: A structured folder of resources and `specification.toml` file with a unique name.
+- Extension/Extension Pack: A structured folder of resources and `specification.toml` file with a unique name.
 
 - Specification: The variables describing how an asset can be used, by the program and by the
 user. Specifications for extensions and assets are stored in the `specification.toml` file.
@@ -71,10 +71,11 @@ user. Specifications for extensions and assets are stored in the `specification.
 - Optional Variables: These are variables which are up to you to include or not! You can tell
 which variables are optional, because the comment describing them will tell you front and
 center. The comment will also tell you what will happen if you don't include the variable.
+(the comment will start with "Optional" and then describe the default case)
 
 - Conditionally Required Variables: These are variables that are sometimes required, but
 sometimes not. The comment describing the variable will tell you when it is required and
-what it does.
+what it does. (the comment will start with "Required if")
 
 ## Assumptions
 
@@ -132,6 +133,84 @@ your assets should work, and what the user should be able to do with them.
 > *For the moment, you'll have to do all the editing for this file yourself, but I have plans to
 make a tool that will do a lot of the configuration for you, so look out for that if you don't
 want to write it yourself!*
+
+The first section of the `specification.toml` file is for metadata about the extension itself.
+This section contains the name, description, author, version, and other information that
+describes the extension rather than the assets.
+
+```toml
+# Optional: if not included, will use NAMESPACE instead
+name = "NAME"
+# Optional: Left blank if not included. May also be a multiline string
+description = "DESCRIPTION"
+# Optional: Left blank if not included. May also be a multiline string
+author = "AUTHOR"
+# Optional: Left blank if not included
+version = "VERSION"
+```
+
+The next section describes all the assets included in the extension pack. If you'd like to see
+an example `specification.toml`, you can find the demo [here](https://github.com/RaidenH-UWT/TCSS491-Character-Creator/blob/main/site/extensions/demo/specification.toml).
+
+Indentation isn't required, but it is helpful if another person is reading your specification!
+
+```toml
+# Array containing all asset configurations as tables
+[[assets]]
+    name = "NAME"
+    
+    # Optional: Left blank if not included. May also be a multiline string
+    description = "DESCRIPTION"
+    
+    # Optional: Listed in the 'Misc.' category if not included.
+    # If the same as a category that already exists, will be included in that category
+    category = "CATEGORY"
+    
+    # Must be among: [static, movable]
+    type = "TYPE"
+    
+    # Must be among: [static, set, picker]
+    # Static will use the color of the resource and not allow changing it
+    # Set allows the user to pick from among several color options defined
+    # by you.
+    # Picker allows the user to use a color picker to choose any color for
+    # the asset
+    colorMode = "COLOR_MODE"
+    
+    # Required if colorMode = set, ignored otherwise
+    # colorOptions may store any number of items, which should be hex
+    # color codes (e.g. #E5074B)
+    colorOptions = ["COLOR1", "COLOR2", ...]
+    
+    # Array containing the resources for this asset
+    # This allows you to use multiple resources for one asset, for
+    # instance if you want different pieces of the asset to be on
+    # different layers.
+    [[assets.resources]]
+        # Absolute filepath from the root of the extension, to the resource
+        path = "PATH"
+        
+        # Relative layer index for the resource to be drawn on
+        # A higher number means this resource will be on drawn on top of
+        # resources with a lower index.
+        # For example values, see the demo or the dragon extensions.
+        # If two assets are in the same location and have the same layer
+        # index, there may be unexpected behaviour.
+        layer = LAYER_INDEX
+        
+        # Integer (in pixels) x- and y-coordinates of the top-left corner
+        # of the resource. This value is relative to the canvas, so if the
+        # asset is static be sure this is in the right spot.
+        # The canvas is a 1024x768 rectangle, with the point (0, 0) in the
+        # top left corner and (1023, 767) in the bottom right corner.
+        x = XCOORD
+        y = YCOORD
+```
+
+
+
+
+
 
 
 
