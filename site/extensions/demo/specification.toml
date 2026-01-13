@@ -165,7 +165,20 @@ version = "1.0.0"
         layer = 6
         x = 374
         y = 11
-        
+      
+[[assets]]
+    name = "Pixel Hat"
+    category = "Hats"
+    type = "movable"
+    colorMode = "static"
+    
+    [[assets.resources]]
+        path = "/resources/hats/pixel_hat.png"
+        layer = 6
+        scale = 22
+        x = 469
+        y = 43
+      
 [[assets]]
     name = "Mohawk"
     category = "Hats"

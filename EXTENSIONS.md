@@ -139,7 +139,7 @@ This section contains the name, description, author, version, and other informat
 describes the extension rather than the assets.
 
 ```toml
-# Optional: if not included, will use NAMESPACE instead
+# Must be unique among loaded extensions
 name = "NAME"
 # Optional: Left blank if not included. May also be a multiline string
 description = "DESCRIPTION"
@@ -197,6 +197,10 @@ Indentation isn't required, but it is helpful if another person is reading your 
         # If two assets are in the same location and have the same layer
         # index, there may be unexpected behaviour.
         layer = LAYER_INDEX
+        
+        # Optional: Set to 1 if not included.
+        # Changes the scale the resource is drawn at. Useful for pixel art.
+        scale = SCALE_MULTIPLIER
         
         # Integer (in pixels) x- and y-coordinates of the top-left corner
         # of the resource. This value is relative to the canvas, so if the
