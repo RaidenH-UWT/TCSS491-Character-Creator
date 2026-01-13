@@ -6,21 +6,51 @@
         <link rel="icon" type="image/png" href="./icon.png"/> <!-- sets tab icon -->
         <link href="./style.css" rel="stylesheet" type="text/css" media="all"> <!-- stylesheet import -->
     </head>
-    <body>
-        <canvas id="creatorCanvas" width="1024" height="768" tabindex="0" autofocus></canvas>
-        <div id="infoBox">
-            <h2>Character Creator</h2>
-            <h3>Made by Raiden H, for TCSS491 Game and Simulation Design at UWT</h3>
-            <br>
-            This is a web-based character creator, built with the goals of extensibility (you 
-            can extend it!) and documentation. If you'd like to see the code, or extend the 
-            creator like i've hinted, you can see the source code <a href="https://github.com/RaidenH-UWT/TCSS491-Character-Creator">here</a>
-            <br>
-            This project makes use of the <code>smol-toml</code> project made by Squirrel 
-            Chat et al. and licensed under the BSD-3-Clause license. <code>smol-toml</code> 
-            can be found <a href="https://github.com/squirrelchat/smol-toml">here</a> and its 
-            license can be found <a href="https://github.com/squirrelchat/smol-toml/blob/mistress/LICENSE">here</a>.
-        </div>
+    <body onload="loadExtensions()">
+        <main>
+            <div id="leftSidebar" class="sidebar">
+            i'm on the left
+            </div>
+            
+            <div id="rightSidebar" class="sidebar">
+                <p style="border: 4px solid black; margin: 2px;">
+                Upload extension:
+                <input type="file"></input>
+                </p>
+                
+                <p>
+                Extensions should be <code>.zip</code> files with a <code>specification.toml</code>
+                in the root of the folder.
+                </p>
+                
+                <p>
+                If you upload an extension, the assets and configuration inside it will be
+                added to the program so you can use them! To learn more about how to make an
+                extension, you can find the tutorial <a href="https://github.com/RaidenH-UWT/TCSS491-Character-Creator/EXTENSIONS.md">here</a>.
+                </p>
+            </div>
+            
+            <canvas id="creatorCanvas" width="1024" height="768" tabindex="0" autofocus></canvas>
+            
+            <div id="infoBox">
+                <h2>Character Creator</h2>
+                <h3>Made by Raiden H, for TCSS491 Game and Simulation Design at UWT</h3>
+                <br>
+                This is a web-based character creator, built with the goals of extensibility (you 
+                can extend it!) and documentation. If you'd like to see the code, or extend the 
+                creator like i've hinted, you can see the source code <a href="https://github.com/RaidenH-UWT/TCSS491-Character-Creator">here</a>
+                <br><br>
+                This project makes use of the <code>smol-toml</code> project made by Squirrel 
+                Chat et al. which is licensed under the BSD-3-Clause license. <code>smol-toml</code> 
+                can be found <a href="https://github.com/squirrelchat/smol-toml">here</a> and its 
+                license can be found <a href="https://github.com/squirrelchat/smol-toml/blob/mistress/LICENSE">here</a>.
+                <br><br>
+                This project makes use of the <code>JSZip</code> project made by Stuart
+                Knightley, David Duponchel, Franz Buchinger, and António Afonso which is
+                licensed under the GPLv3 license. <code>JSZip</code> may be found <a href="https://stuk.github.io/jszip/">here</a>,
+                and its license can be found <a href="https://github.com/Stuk/jszip/blob/main/LICENSE.markdown">here</a>.
+            </div>
+        </main>
     </body>
-    <script type="module" src="./scripts/extension_loader.js"></script>
+    <script src="./scripts/extension_loader.js"></script>
 </html>
