@@ -11,7 +11,7 @@ async function loadExtensions() {
     const TOML = await import("https://cdn.jsdelivr.net/npm/smol-toml@1.6.0/+esm");
     
     for (let i = 0; i < extensions.length; i++) {
-        let extText = await fetch(`../extensions/${extensions[i]}/specification.toml`)
+        let extText = await fetch(`./extensions/${extensions[i]}/specification.toml`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Network response not OK");
