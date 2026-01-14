@@ -211,9 +211,19 @@ Indentation isn't required, but it is helpful if another person is reading your 
         y = YCOORD
 ```
 
+And that's it! You can add several `[[assets.resources]]` tables (as per the TOML spec), and
+several `[[assets]]` tables as well.
 
+## (4) Exporting Your Extension
 
+Finally, you can export your extension by compressing it into a `.zip` archive file. Once
+you've made your zip file, you're ready to share and use it!
 
+## (5) Importing Your Extension
+
+To import your extension, open up [the program](https://raidenh-uwt.github.io/TCSS491-Character-Creator/)
+again and click the "Browse" button then select your extension. If your extension is
+improperly formatted, the program will give you an alert about the problem so you can fix it.
 
 
 
