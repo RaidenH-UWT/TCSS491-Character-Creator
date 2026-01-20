@@ -72,6 +72,7 @@ async function loadUserExtension(theFile) {
             // make new asset with extensionSpec.get(result) and resources
             // need to pass it back to the main engine. wokr on that.
         }
+        // how i sent iamge data over
         result = await zip.file(extensionSpec.get("Demo Extension").assets[0].resources[0].path.slice(1)).async("arraybuffer");
         testing = new Tester(result);
     });
