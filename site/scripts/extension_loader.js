@@ -1,5 +1,5 @@
 // List of the names of premade extensions included in the program
-const BASE_EXTENSIONS = ["demo", "dragon"];
+const BASE_EXTENSIONS = [/*"demo", */"dragon"];
 
 const extensionSpec = new Map();
 
@@ -23,10 +23,12 @@ async function loadSpec(specFile) {
     // Don't overwrite extensions if there's a name collision
     if (extensionSpec.has(data.name)) {
         alert(`COLLISION\nExtension with name: ${data.name} already loaded`);
+        return -1;
     } else {
         extensionSpec.set(data.name, data);
         console.log("Loaded " + data.name);
         console.log(extensionSpec);
+        return data.name;
     }
 }
 
@@ -55,17 +57,23 @@ async function loadExtension(filepath) {
 async function loadUserExtension(theFile) {
     JSZip.loadAsync(theFile).then(async function (zip) {
         let text = await zip.file("specification.toml").async("string");
-        loadSpec(text);
-        zip.forEach(async function (relativePath, zipEntry) {
-            // Load all the resource files into the program
-            if (zipEntry.name.includes(".png")) {
-                // TODO: Send these files over to the game engine as Assets, so we save them
-                // use the asset config from extensionSpec which should be loaded now
-                // plus the file as a resource. might want to do this outside the forEach
-                // actually, because each asset has specific resource(s) associated with it
+        let result = await loadSpec(text);
+        if (result == -1) {
+            return;
+        }
+        
+        assets = extensionSpec.get(result).assets;
+        
+        for (asset of assets) {
+            let resources = [];
+            for (resource of asset.resources) {
+                resources.push(await zip.file(resource.path.slice(1)).async("arraybuffer"));
             }
-            // ignore any other files, we can't use them
-        });
+            // make new asset with extensionSpec.get(result) and resources
+            // need to pass it back to the main engine. wokr on that.
+        }
+        result = await zip.file(extensionSpec.get("Demo Extension").assets[0].resources[0].path.slice(1)).async("arraybuffer");
+        testing = new Tester(result);
     });
 }
 
