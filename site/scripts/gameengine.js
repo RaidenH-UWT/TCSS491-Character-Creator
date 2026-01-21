@@ -99,10 +99,6 @@ class GameEngine {
             let toDraw = resources.filter(function(elem) {
                 return elem.asset == asset.config.name;
             });
-            console.log("the asset:");
-            console.log(asset);
-            console.log("the drawrings:");
-            console.log(toDraw);
             
             for (resource of toDraw) {
                 this.ctx.drawImage(resource.img, asset.x + resource.x, asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);

@@ -60,7 +60,10 @@ async function loadUserExtension(theFile, theGame) {
         for (asset of assets) {
             let resources = [];
             for (resource of asset.resources) {
-                resources.push({data: await zip.file(resource.path.slice(1)).async("arraybuffer"), layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale = 1});
+                if (!Object.hasOwn(resource, "scale")) {
+                    resource.scale = 1;
+                }
+                resources.push({data: await zip.file(resource.path.slice(1)).async("arraybuffer"), layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale});
             }
             // make new asset with extensionSpec.get(result) and resources
             // need to pass it back to the main engine. wokr on that.

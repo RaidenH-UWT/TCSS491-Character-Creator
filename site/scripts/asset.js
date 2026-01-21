@@ -19,9 +19,7 @@ class Asset {
                 img = resource.data;
             }
             
-            
-            
-            this.resources.push({asset: this.config.name, img: img, layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale = 1});
+            this.resources.push({asset: this.config.name, img: img, layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale});
         }
     }
     

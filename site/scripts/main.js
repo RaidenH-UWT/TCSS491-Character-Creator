@@ -36,7 +36,10 @@ async function startGame() {
             for (asset of assets) {
                 let resources = [];
                 for (resource of asset.resources) {
-                    resources.push({data: assetManager.getResource(`./extensions/${extensionSpec.get(extension).namespace}${resource.path}`), layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale = 1});
+                    if (!Object.hasOwn(resource, "scale")) {
+                        resource.scale = 1;
+                    }
+                    resources.push({data: assetManager.getResource(`./extensions/${extensionSpec.get(extension).namespace}${resource.path}`), layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale});
                 }
                 gameEngine.addAsset(new Asset(asset, resources));
             }
