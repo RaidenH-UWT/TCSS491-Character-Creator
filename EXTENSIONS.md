@@ -159,6 +159,9 @@ Indentation isn't required, but it is helpful if another person is reading your 
 [[assets]]
     name = "NAME"
     
+    # Must be the same as the NAMESPACE folder
+    namespace = "NAMESPACE"
+    
     # Optional: Left blank if not included. May also be a multiline string
     description = "DESCRIPTION"
     

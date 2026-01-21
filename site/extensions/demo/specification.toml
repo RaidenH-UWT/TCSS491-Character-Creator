@@ -1,4 +1,5 @@
 name = "Demo Extension"
+namespace = "demo"
 description = "Demonstrates the structure of an extension."
 author = "Raiden H"
 version = "1.0.0"
