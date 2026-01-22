@@ -16,7 +16,7 @@ start with some short explanations of each step, then move on to more detailed i
 1) Make your assets
 
 These can be hand-drawn, pulled from somewhere else (with permission hopefully), or anything
-else. They must be images in the `.png` format (i'm working on addingsupport for other
+else. They must be images in the `.png` format (i'm working on adding support for other
 formats!). I don't cover this step in this tutorial, because I'm assuming you already have
 something you want to use, or know how to make something new.
 
@@ -141,6 +141,8 @@ describes the extension rather than the assets.
 ```toml
 # Must be unique among loaded extensions
 name = "NAME"
+# Must be the same as the NAMESPACE folder
+namespace = "NAMESPACE"
 # Optional: Left blank if not included. May also be a multiline string
 description = "DESCRIPTION"
 # Optional: Left blank if not included. May also be a multiline string
@@ -158,9 +160,6 @@ Indentation isn't required, but it is helpful if another person is reading your 
 # Array containing all asset configurations as tables
 [[assets]]
     name = "NAME"
-    
-    # Must be the same as the NAMESPACE folder
-    namespace = "NAMESPACE"
     
     # Optional: Left blank if not included. May also be a multiline string
     description = "DESCRIPTION"
@@ -183,7 +182,7 @@ Indentation isn't required, but it is helpful if another person is reading your 
     # Required if colorMode = set, ignored otherwise
     # colorOptions may store any number of items, which should be hex
     # color codes (e.g. #E5074B)
-    colorOptions = ["COLOR1", "COLOR2", ...]
+    colorOptions = ["COLOR1", "COLOR2"]
     
     # Array containing the resources for this asset
     # This allows you to use multiple resources for one asset, for
@@ -227,7 +226,3 @@ you've made your zip file, you're ready to share and use it!
 To import your extension, open up [the program](https://raidenh-uwt.github.io/TCSS491-Character-Creator/)
 again and click the "Browse" button then select your extension. If your extension is
 improperly formatted, the program will give you an alert about the problem so you can fix it.
-
-
-
-
