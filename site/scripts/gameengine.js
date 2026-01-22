@@ -81,6 +81,9 @@ class GameEngine {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         
+        console.log("Loaded assets:");
+        console.log(this.assets);
+        
         let resources = [];
         for (asset of this.assets) {
             resources.push(asset.resources);

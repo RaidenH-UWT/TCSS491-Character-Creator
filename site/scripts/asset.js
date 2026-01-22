@@ -8,12 +8,14 @@ class Asset {
     constructor(config, resources) {
         this.config = config;
         this.resources = [];
+        // these coords are relative; all assets start at 0 and their resources are offset by their respective coords
+        // by this method i can modify the asset coords when the user moves it, then reset to 0 for original position.
         this.x = 0;
         this.y = 0;
         
         for (resource of resources) {
             let img = new Image();
-            if (typeof resource.data == "arraybuffer") {
+            if (resource.data instanceof ArrayBuffer) {
                 img.src = URL.createObjectURL(new Blob([resource.data], {type: "image/png"}));
             } else {
                 img = resource.data;

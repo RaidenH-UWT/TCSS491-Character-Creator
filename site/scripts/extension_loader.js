@@ -48,7 +48,7 @@ async function loadExtension(theFilepath, theGame) {
  * @param theGame GameEngine to add assets to
  */
 async function loadUserExtension(theFile, theGame) {
-    JSZip.loadAsync(theFile).then(async function (zip) {
+    await JSZip.loadAsync(theFile).then(async function (zip) {
         let text = await zip.file("specification.toml").async("string");
         let result = await loadSpec(text);
         if (result == -1) {
@@ -65,13 +65,10 @@ async function loadUserExtension(theFile, theGame) {
                 }
                 resources.push({data: await zip.file(resource.path.slice(1)).async("arraybuffer"), layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale});
             }
-            // make new asset with extensionSpec.get(result) and resources
-            // need to pass it back to the main engine. wokr on that.
+            gameEngine.addAsset(new Asset(asset, resources));
         }
-        // how i sent iamge data over
-        result = await zip.file(extensionSpec.get("Demo Extension").assets[0].resources[0].path.slice(1)).async("arraybuffer");
-        testing = new Tester(result);
     });
+    console.log("loading done");
 }
 
 /**

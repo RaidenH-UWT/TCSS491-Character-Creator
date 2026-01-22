@@ -54,6 +54,7 @@ async function startGame() {
 /**
  * Called when the user uploads a new extension.
  */
-function addUserExtension(theFile) {
-    loadUserExtension(theFile, gameEngine);
+async function addUserExtension(theFile) {
+    await loadUserExtension(theFile, gameEngine);
+    setTimeout(() => { gameEngine.draw() }, 10);
 }
