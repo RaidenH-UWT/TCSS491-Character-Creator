@@ -1,13 +1,15 @@
 // This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
-// Further modified by Raiden for this project.
+// Further modified by Raiden for the Character Creator.
 class GameEngine {
-    constructor(debug) {
+    constructor(ui, debug) {
         // What you will use to draw
         // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
-        this.ctx = null;
+        this.context = null;
         
         // Everything that will be updated and drawn each frame
         this.assets = [];
+
+        this.ui = ui;
         
         // Information on the input
         this.click = null;
@@ -19,7 +21,7 @@ class GameEngine {
     };
     
     init(ctx) {
-        this.ctx = ctx;
+        this.context = ctx;
         this.startInput();
         this.timer = new Timer();
     };
@@ -28,32 +30,32 @@ class GameEngine {
         this.running = true;
         const gameLoop = () => {
             this.loop();
-            requestAnimFrame(gameLoop, this.ctx.canvas);
+            requestAnimFrame(gameLoop, this.context.canvas);
         };
         gameLoop();
     };
     
     startInput() {
         const getXandY = e => ({
-            x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
-                               y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
+            x: e.clientX - this.context.canvas.getBoundingClientRect().left,
+                               y: e.clientY - this.context.canvas.getBoundingClientRect().top
         });
         
-        this.ctx.canvas.addEventListener("mousemove", e => {
+        this.context.canvas.addEventListener("mousemove", e => {
             if (this.debug) {
                 console.log("MOUSE_MOVE", getXandY(e));
             }
             this.mouse = getXandY(e);
         });
         
-        this.ctx.canvas.addEventListener("click", e => {
+        this.context.canvas.addEventListener("click", e => {
             if (this.debug) {
                 console.log("CLICK", getXandY(e));
             }
             this.click = getXandY(e);
         });
         
-        this.ctx.canvas.addEventListener("wheel", e => {
+        this.context.canvas.addEventListener("wheel", e => {
             if (this.debug) {
                 console.log("WHEEL", getXandY(e), e.wheelDelta);
             }
@@ -61,7 +63,7 @@ class GameEngine {
             this.wheel = e;
         });
         
-        this.ctx.canvas.addEventListener("contextmenu", e => {
+        this.context.canvas.addEventListener("contextmenu", e => {
             if (this.debug) {
                 console.log("RIGHT_CLICK", getXandY(e));
             }
@@ -69,8 +71,8 @@ class GameEngine {
             this.rightclick = getXandY(e);
         });
         
-        this.ctx.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
-        this.ctx.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
+        this.context.canvas.addEventListener("keydown", event => this.keys[event.key] = true);
+        this.context.canvas.addEventListener("keyup", event => this.keys[event.key] = false);
     };
     
     addAsset(asset) {
@@ -79,14 +81,14 @@ class GameEngine {
     
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        
-        console.log("Loaded assets:");
-        console.log(this.assets);
-        
+        this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+
+        // queue up enabled assets for drawing
         let resources = [];
         for (asset of this.assets) {
-            resources.push(asset.resources);
+            if (asset.isEnabled) {
+                resources.push(asset.resources);
+            }
         }
         
         // sort the list by layer
@@ -104,10 +106,12 @@ class GameEngine {
             });
             
             for (resource of toDraw) {
-                this.ctx.drawImage(resource.img, asset.x + resource.x, asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
+                this.context.drawImage(resource.img, asset.x + resource.x, asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
             }
         }
         
+        // TODO: draw this.ui over the top
+        this.ui.draw(this.context);
     };
     
     update() {

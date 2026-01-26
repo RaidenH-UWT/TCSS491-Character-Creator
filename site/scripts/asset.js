@@ -12,6 +12,9 @@ class Asset {
         // by this method i can modify the asset coords when the user moves it, then reset to 0 for original position.
         this.x = 0;
         this.y = 0;
+
+        // whether this asset is currently toggled or not. I plan to implement something a bit more sophisticated.
+        this.isEnabled = false;
         
         for (resource of resources) {
             let img = new Image();
