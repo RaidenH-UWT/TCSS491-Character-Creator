@@ -1,5 +1,5 @@
-const gameEngine = new GameEngine(debug = false);
 const assetManager = new AssetManager();
+const gameEngine = new GameEngine(false);
 
 const extensionUploader = document.getElementById("extensionUpload");
 extensionUploader.addEventListener("change", (event) => {
@@ -29,7 +29,21 @@ async function startGame() {
         }
     }
     
+    assetManager.queueDownload("./assets/guides.png");
+    assetManager.queueDownload("./assets/ui_background.png");
+    assetManager.queueDownload("./assets/tab_left.png");
+    assetManager.queueDownload("./assets/tab_mid.png");
+    assetManager.queueDownload("./assets/tab_right.png");
+    assetManager.queueDownload("./assets/asset_border_on.png");
+    assetManager.queueDownload("./assets/asset_border_off.png");
+    assetManager.queueDownload("./assets/arrow_left.png");
+    assetManager.queueDownload("./assets/arrow_right.png");
+    
+    
     assetManager.downloadAll(function() {
+        const ui = new UserInterface(gameEngine);
+        gameEngine.ui = ui;
+        
         // Add assets to the game engine
         for (extension of extensionSpec.keys()) {
             let assets = extensionSpec.get(extension).assets;

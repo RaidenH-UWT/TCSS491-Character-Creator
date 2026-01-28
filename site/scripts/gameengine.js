@@ -1,15 +1,15 @@
 // This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
 // Further modified by Raiden for the Character Creator.
 class GameEngine {
-    constructor(ui, debug) {
+    constructor(debug) {
         // What you will use to draw
         // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
         this.context = null;
         
         // Everything that will be updated and drawn each frame
         this.assets = [];
-
-        this.ui = ui;
+        
+        this.categories = [];
         
         // Information on the input
         this.click = null;
@@ -77,6 +77,7 @@ class GameEngine {
     
     addAsset(asset) {
         this.assets.push(asset);
+        if (!this.categories.includes(asset.config.category)) this.categories.push(asset.config.category);
     };
     
     draw() {
@@ -110,7 +111,6 @@ class GameEngine {
             }
         }
         
-        // TODO: draw this.ui over the top
         this.ui.draw(this.context);
     };
     
