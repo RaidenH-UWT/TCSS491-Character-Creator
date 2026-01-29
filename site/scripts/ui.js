@@ -126,6 +126,7 @@ class UserInterface {
             let selection = this.tabWidths.filter((pair) => clickX >= pair.start - 8 && clickX <= pair.end + 8);
             if (selection) {
                 this.category = selection[0].name;
+                this.page = 0;
             }
         } else {
             if (clickX <= 64 && this.page > 0) {

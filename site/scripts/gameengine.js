@@ -18,6 +18,7 @@ class GameEngine {
         this.keys = {};
         
         this.debug = debug;
+        this.temp = [];
     };
     
     init(ctx) {
@@ -81,7 +82,6 @@ class GameEngine {
     addAsset(asset) {
         this.assets.push(asset);
         if (!this.categories.includes(asset.config.category)) this.categories.push(asset.config.category);
-        console.log(this.assets);
     };
     
     draw() {
@@ -101,13 +101,9 @@ class GameEngine {
         resources.sort((a, b) => a.layer - b.layer);
         
         // draw resources in order
-        for (asset of this.assets) {
-            let toDraw = resources.filter((resource) => resource.asset == asset.config.name)
-            
-            // TODO: multi-resource assets seem to have something funky going on, where they aren't offset properly. check this out
-            for (resource of toDraw) {
-                this.context.drawImage(resource.img, asset.x + resource.x, asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
-            }
+        // TODO: multi-resource assets seem to have something funky going on, where they aren't offset properly. check this out
+        for (resource of resources) {
+            this.context.drawImage(resource.img, asset.x + resource.x, asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
         }
         
         this.ui.draw(this.context);
