@@ -108,7 +108,7 @@ class GameEngine {
             let toDraw = resources.filter(function(elem) {
                 return elem.asset == asset.config.name;
             });
-            
+            // TODO: multi-resource assets seem to have something funky going on, where they aren't offset properly. check this out
             for (resource of toDraw) {
                 this.context.drawImage(resource.img, asset.x + resource.x, asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
             }

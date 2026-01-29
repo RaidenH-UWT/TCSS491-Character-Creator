@@ -189,7 +189,7 @@ version = "1.0.0"
     [[assets.resources]]
         path = "/resources/hats/mohawk_front.png"
         layer = 6
-        x = 514
+        x = 513
         y = 35
     [[assets.resources]]
         path = "/resources/hats/mohawk_back.png"
