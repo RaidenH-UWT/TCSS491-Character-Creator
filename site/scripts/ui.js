@@ -35,6 +35,12 @@ class UserInterface {
     }
     
     drawCategories(context) {
+        // TODO: weird issue that (i think) only shows up in prod: when loading
+        // an external extension, *sometimes* one asset does not load, which causes
+        // the creation of an "undefined" category which, when clicked, goes to the
+        // first category. So: why is an asset missing, and why does that cause an
+        // undefined category to appear.
+        
         // draw all categories in a row, with backgrounds made from sprite segments
         // when the user scrolls, offset the drawing so that a different section shows up.
         let temp = this.tabOffset;
