@@ -198,6 +198,30 @@ version = "1.1.0"
         y = 35
         
 [[assets]]
+    name = "Beanie"
+    category = "Hats"
+    type = "movable"
+    colorMode = "picker"
+    
+    [[assets.resources]]
+        path = "/resources/hats/beanie.png"
+        layer = 6
+        x = 421
+        y = 79
+        
+[[assets]]
+    name = "Scarf"
+    category = "Hats"
+    type = "movable"
+    colorMode = "picker"
+    
+    [[assets.resources]]
+        path = "/resources/hats/scarf.png"
+        layer = 6
+        x = 459
+        y = 377
+        
+[[assets]]
     name = "Gay Button"
     category = "Buttons"
     type = "movable"
