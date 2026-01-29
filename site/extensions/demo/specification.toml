@@ -2,7 +2,7 @@ name = "Demo Extension"
 namespace = "demo"
 description = "Demonstrates the structure of an extension."
 author = "Raiden H"
-version = "1.0.0"
+version = "1.1.0"
 
 [[assets]]
     name = "Forest"
@@ -196,3 +196,51 @@ version = "1.0.0"
         layer = 1
         x = 468
         y = 35
+        
+[[assets]]
+    name = "Gay Button"
+    category = "Buttons"
+    type = "movable"
+    colorMode = "static"
+    
+    [[assets.resources]]
+        path = "/resources/buttons/gay.png"
+        layer = 6
+        x = 479
+        y = 443
+
+[[assets]]
+    name = "Star Button"
+    category = "Buttons"
+    type = "movable"
+    colorMode = "static"
+    
+    [[assets.resources]]
+        path = "/resources/buttons/star.png"
+        layer = 6
+        x = 498
+        y = 414
+        
+[[assets]]
+    name = "Hair Tie Bracelet"
+    category = "Bracelets"
+    type = "movable"
+    colorMode = "static"
+    
+    [[assets.resources]]
+        path = "/resources/bracelets/hair_tie.png"
+        layer = 3
+        x = 617
+        y = 391
+        
+[[assets]]
+    name = "Rainbow Bracelet"
+    category = "Bracelets"
+    type = "movable"
+    colorMode = "static"
+    
+    [[assets.resources]]
+        path = "/resources/bracelets/rainbow.png"
+        layer = 3
+        x = 403
+        y = 395

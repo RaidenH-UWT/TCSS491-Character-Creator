@@ -39,15 +39,16 @@ class UserInterface {
         // when the user scrolls, offset the drawing so that a different section shows up.
         let temp = this.tabOffset;
         this.tabWidths = [];
-        context.font = "32px serif";
+        context.font = "34px serif";
         context.fillStyle = "black";
         let category;
         // let categories = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh", "twelfth", "thirteenth"];
         let categories = this.gameEngine.categories;
         for (category of categories) {
-            if (!this.category) {
+            if (typeof this.category == "undefined") {
                 this.category = category;
             }
+            
             context.drawImage(this.sprites.tab_left, this.tabOffset, 768);
             this.tabOffset += 8;
             
@@ -59,6 +60,12 @@ class UserInterface {
             }
             
             context.drawImage(this.sprites.tab_right, this.tabOffset + width, 768);
+            
+            if (this.category == category) {
+                context.fillStyle = "#3ad43b";
+            } else {
+                context.fillStyle = "black";
+            }
             
             context.fillText(category, this.tabOffset, 806);
             this.tabWidths.push({name: category, start: this.tabOffset, end: this.tabOffset + width + 8});
@@ -139,14 +146,13 @@ class UserInterface {
                 }
             }
         }
-        
     }
     
     scroll(posX, posY, distance) {
         // only scroll if within the tab area
         if (posY >= 768 && posY <= 816) {
             // only scroll if there are enough tabs to warrant it
-            let farX = this.tabWidths[this.tabWidths.length - 1].end;
+            let farX = this.tabWidths[this.tabWidths.length - 1].end - this.tabOffset;
             if (farX > 1024) {
                 // don't allow the offset to go past the starting point, or the furthest tab
                 this.tabOffset = Math.min(0, Math.max(this.tabOffset - distance, 1024 - farX));

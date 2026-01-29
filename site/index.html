@@ -11,12 +11,33 @@
             <div id="leftSidebar" class="sidebar">
                 <p>
                 Try selecting a base, and then scrolling through the customization options!
-                When you're done, press the camera button to save an image of your creation!
+                When you're done, press the "Download" button to save an image of your creation!
+                </p>
+                <p>
+                The interface is all mouse-based. You can scroll on the category bar and click
+                on categories to see what's in them. You can click on assets inside a category
+                to toggle them on and off. Assets that are enabled have a green border. If there
+                are more assets than will fit on one page, you can use the arrows to navigate
+                between pages.
+                </p>
+                <p>
+                If you're coming here to try out my prototype, I invite you to explore and try
+                to break stuff! I would love any and all feedback on what I've implemented so
+                far. Additionally, if you'd like to try adding an extension to play around with,
+                check out the extension tutorial (which i would also love feedback on! it's over
+                on the right sidebar) or try out my <a href="">example</a> to see how it works.
+                </p>
+                <p>
+                I have a lot of features planned for the future (which you can get a peek of in
+                my <a href="https://github.com/RaidenH-UWT/TCSS491-Character-Creator/blob/main/README.md">README</a>)
+                but for now the main bits are functional! You can add and remove assets, upload
+                extensions, and download your creation. Enjoy!
                 </p>
             </div>
             
             <div id="rightSidebar" class="sidebar">
-                <p style="border: 4px solid black; margin: 4px; border-radius: 5px;">
+                <button onclick="download()">Download</button>
+                <p style="border: 4px solid black; margin: 4px; border-radius: 5px; background: #ff0856;">
                 Upload extension(s):
                 <input id="extensionUpload" type="file" multiple></input>
                 </p>
@@ -75,4 +96,20 @@
     <script src="./scripts/ui.js"></script>
     <script src="./scripts/asset.js"></script>
     <script src="./scripts/main.js"></script>
+    <script>
+        function download() {
+            let link = document.createElement("a");
+            link.download = "image.png";
+            
+            let downloadCanvas = document.createElement("canvas");
+            downloadCanvas.width = 1024;
+            downloadCanvas.height = 768;
+            downloadCanvas.getContext("2d").drawImage(document.getElementById("creatorCanvas"), 0, 0);
+            
+            downloadCanvas.toBlob((blob) => {
+                link.href = URL.createObjectURL(blob);
+                link.click();
+            });
+        }
+    </script>
 </html>

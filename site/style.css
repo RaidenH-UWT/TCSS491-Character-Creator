@@ -13,7 +13,8 @@ body {
 
 main {
     position: relative;
-    margin-left: 256px;
+    margin-left: auto;
+    margin-right: auto;
     width: 1536px;
     background-image: var(--bg-gradient);
     border-radius: 10px;
@@ -67,4 +68,15 @@ a {
 
 a:visited {
     color: var(--visited-link-color);
+}
+
+button {
+    font-size: 2em;
+    display: block;
+    margin: auto;
+    margin-top: 16px;
+    text-align: center;
+    background: #ff0856;
+    border: solid black 3px;
+    border-radius: 5px;
 }
