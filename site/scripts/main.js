@@ -60,8 +60,8 @@ async function startGame() {
         }
         
         // console.log("starting");
-        // gameEngine.start();
-        gameEngine.draw();
+        gameEngine.start();
+        // gameEngine.draw();
     });
 }
 

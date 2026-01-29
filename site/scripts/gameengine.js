@@ -53,6 +53,7 @@ class GameEngine {
                 console.log("CLICK", getXandY(e));
             }
             this.click = getXandY(e);
+            this.ui.handleClick(this.click.x, this.click.y);
         });
         
         this.context.canvas.addEventListener("wheel", e => {
@@ -61,6 +62,8 @@ class GameEngine {
             }
             e.preventDefault(); // Prevent Scrolling
             this.wheel = e;
+            // send the values to the UI to scroll, and allow for either vertical or horizontal scrolling with wheelDelta
+            this.ui.scroll(getXandY(e).x, getXandY(e).y, -this.wheel.wheelDelta);
         });
         
         this.context.canvas.addEventListener("contextmenu", e => {
