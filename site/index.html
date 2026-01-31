@@ -7,6 +7,7 @@
         <link href="./style.css" rel="stylesheet" type="text/css" media="all"> <!-- stylesheet import -->
     </head>
     <body onload="startGame()">
+        <button id="debug" style="position: absolute; left: 0; top: 0; visibility: hidden;">DEBUG</button>
         <main>
             <div id="leftSidebar" class="sidebar">
                 <p>
@@ -87,7 +88,6 @@
         </main>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-    <script src="./scripts/tester.js"></script>
     <script src="./scripts/extension_loader.js"></script>
     <script src="./scripts/util.js"></script>
     <script src="./scripts/timer.js"></script>
@@ -110,6 +110,11 @@
                 link.href = URL.createObjectURL(blob);
                 link.click();
             });
+        }
+        
+        function showDebug() {
+            let button = document.getElementById("debug");
+            button.style.visibility = "visible";
         }
     </script>
 </html>

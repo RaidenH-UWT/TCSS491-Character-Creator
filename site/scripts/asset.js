@@ -34,7 +34,7 @@ class Asset {
     
     draw(context) {
         for (resource of this.resources) {
-            console.log(resource.img);
+            if (DEBUG.other) console.log(resource.img);
             context.drawImage(resource.img, this.x + resource.x, this.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
         }
     }

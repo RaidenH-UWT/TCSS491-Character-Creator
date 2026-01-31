@@ -1,11 +1,18 @@
+const DEBUG = {error: true, loader: false, io: false, ui: false, step: false, other: false};
+
 const assetManager = new AssetManager();
-const gameEngine = new GameEngine(false);
+const gameEngine = new GameEngine();
 
 const extensionUploader = document.getElementById("extensionUpload");
 extensionUploader.addEventListener("change", (event) => {
     for (file of event.target.files) {
         addUserExtension(file);
     }
+});
+
+const debugButton = document.getElementById("debug");
+debugButton.addEventListener("click", (event) => {
+   gameEngine.draw(); 
 });
 
 async function startGame() {
@@ -17,9 +24,9 @@ async function startGame() {
     
     await loadBaseExtensions();
     
-    console.log("loaded base");
+    if (DEBUG.loader) console.log("loaded base");
     for (extension of extensionSpec.keys()) {
-        console.log(extensionSpec.get(extension).name);
+        if (DEBUG.loader) console.log(extensionSpec.get(extension).name);
         let assets = extensionSpec.get(extension).assets;
         // Download all resources to the cache
         for (asset of assets) {
@@ -59,9 +66,14 @@ async function startGame() {
             }
         }
         
-        // console.log("starting");
+        if (DEBUG.other) console.log("starting");
         gameEngine.start();
-        // gameEngine.draw();
+        
+        if (DEBUG.step) {
+            gameEngine.draw();
+            
+            showDebug();
+        }
     });
 }
 

@@ -31,7 +31,7 @@ class UserInterface {
         context.drawImage(this.sprites.background, 0, 816);
         this.drawCategories(context);
         this.drawAssets(context);
-        if (this.gameEngine.debug) context.drawImage(this.sprites.guides, 0, 768);
+        if (DEBUG.ui) context.drawImage(this.sprites.guides, 0, 768);
     }
     
     drawCategories(context) {
@@ -54,6 +54,8 @@ class UserInterface {
             if (typeof this.category == "undefined") {
                 this.category = category;
             }
+            
+            if (DEBUG.ui && DEBUG.step) console.log("Drawing category: " + category);
             
             context.drawImage(this.sprites.tab_left, this.tabOffset, 768);
             this.tabOffset += 8;
@@ -154,8 +156,9 @@ class UserInterface {
             }
         }
     }
-    
+
     scroll(posX, posY, distance) {
+        //TODO: consider adding click-n-drag support for mobile users
         // only scroll if within the tab area
         if (posY >= 768 && posY <= 816) {
             // only scroll if there are enough tabs to warrant it

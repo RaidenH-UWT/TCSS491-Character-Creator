@@ -1,7 +1,7 @@
 // This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
 // Further modified by Raiden for the Character Creator.
 class GameEngine {
-    constructor(debug) {
+    constructor() {
         // What you will use to draw
         // Documentation: https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
         this.context = null;
@@ -17,7 +17,6 @@ class GameEngine {
         this.wheel = null;
         this.keys = {};
         
-        this.debug = debug;
         this.temp = [];
     };
     
@@ -43,14 +42,14 @@ class GameEngine {
         });
         
         this.context.canvas.addEventListener("mousemove", e => {
-            if (this.debug) {
+            if (DEBUG.io) {
                 console.log("MOUSE_MOVE", getXandY(e));
             }
             this.mouse = getXandY(e);
         });
         
         this.context.canvas.addEventListener("click", e => {
-            if (this.debug) {
+            if (DEBUG.io) {
                 console.log("CLICK", getXandY(e));
             }
             this.click = getXandY(e);
@@ -58,7 +57,7 @@ class GameEngine {
         });
         
         this.context.canvas.addEventListener("wheel", e => {
-            if (this.debug) {
+            if (DEBUG.io) {
                 console.log("WHEEL", getXandY(e), e.wheelDelta);
             }
             e.preventDefault(); // Prevent Scrolling
@@ -68,7 +67,7 @@ class GameEngine {
         });
         
         this.context.canvas.addEventListener("contextmenu", e => {
-            if (this.debug) {
+            if (DEBUG.io) {
                 console.log("RIGHT_CLICK", getXandY(e));
             }
             e.preventDefault(); // Prevent Context Menu
@@ -82,6 +81,7 @@ class GameEngine {
     addAsset(asset) {
         this.assets.push(asset);
         if (!this.categories.includes(asset.config.category)) this.categories.push(asset.config.category);
+        if (DEBUG.loader) console.log("Added Asset:", asset, "\nStored categories: ", this.categories);
     };
     
     draw() {

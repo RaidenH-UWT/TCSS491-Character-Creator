@@ -18,8 +18,8 @@ async function loadSpec(specFile) {
         return -1;
     } else {
         extensionSpec.set(data.name, data);
-        console.log("Loaded " + data.name);
-        console.log(extensionSpec);
+        if (DEBUG.loader) console.log("Loaded " + data.name);
+        if (DEBUG.loader) console.log(extensionSpec);
         return data.name;
     }
 }
@@ -30,7 +30,7 @@ async function loadSpec(specFile) {
  * @param theGame GameEngine to add assets to
  */
 async function loadExtension(theFilepath, theGame) {
-    console.log("loading " + theFilepath);
+    if (DEBUG.loader) console.log("loading " + theFilepath);
     let extText = await fetch(theFilepath)
         .then(response => {
             if (!response.ok) {
@@ -45,9 +45,8 @@ async function loadExtension(theFilepath, theGame) {
  * Load an extension file (.zip) from the user.
  * This function should only be called by the extensionUpload element.
  * @param theFile .zip archive to load
- * @param theGame GameEngine to add assets to
  */
-async function loadUserExtension(theFile, theGame) {
+async function loadUserExtension(theFile) {
     await JSZip.loadAsync(theFile).then(async function (zip) {
         let text = await zip.file("specification.toml").async("string");
         let result = await loadSpec(text);
@@ -56,19 +55,34 @@ async function loadUserExtension(theFile, theGame) {
         }
         
         assets = extensionSpec.get(result).assets;
+        if (DEBUG.loader) console.log("User ext. assets: ", assets);
         
-        for (asset of assets) {
+        for (const asset of assets) {
+            if (DEBUG.loader) console.log("Loading asset: ", asset);
+            
             let resources = [];
             for (resource of asset.resources) {
+                if (DEBUG.loader) console.log("Before resource: ", asset);
                 if (!Object.hasOwn(resource, "scale")) {
                     resource.scale = 1;
                 }
                 resources.push({data: await zip.file(resource.path.slice(1)).async("arraybuffer"), layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale});
+                if (DEBUG.loader) console.log("After resource: ", asset);
             }
+            
+            if (typeof asset.name == "undefined") {
+                // there was an issue where as assets were being loaded the `asset` currently being
+                // worked on would be reassigned as the fucking Asset instance we just added.
+                // no idea how, i never mutate `asset` directly. making it `const` fixed it.
+                if (DEBUG.error) console.log("ERROR: Undefined user-loaded asset: ", asset);
+                continue;
+            }
+            
+            if (DEBUG.loader) console.log("Added asset: " + asset.name)
             gameEngine.addAsset(new Asset(asset, resources));
         }
     });
-    console.log("loading done");
+    if (DEBUG.loader) console.log("loading done");
 }
 
 /**
