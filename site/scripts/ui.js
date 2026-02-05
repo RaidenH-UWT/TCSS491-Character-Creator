@@ -35,12 +35,6 @@ class UserInterface {
     }
     
     drawCategories(context) {
-        // TODO: weird issue that (i think) only shows up in prod: when loading
-        // an external extension, *sometimes* one asset does not load, which causes
-        // the creation of an "undefined" category which, when clicked, goes to the
-        // first category. So: why is an asset missing, and why does that cause an
-        // undefined category to appear.
-        
         // draw all categories in a row, with backgrounds made from sprite segments
         // when the user scrolls, offset the drawing so that a different section shows up.
         let temp = this.tabOffset;
@@ -95,24 +89,34 @@ class UserInterface {
             // row = Math.floor(i / 6); col = i % 6
             let x = 19 + 128 * (i % 6 + 1);
             let y = 827 + 96 * (Math.floor(i / 6));
-
+            
+            let boundingBox = assets[i].getBoundingBox();
+            
+            let iconCanvas = document.createElement("canvas");
+            iconCanvas.width = Math.max(boundingBox.width, boundingBox.height);
+            iconCanvas.height = Math.max(boundingBox.width, boundingBox.height);
+            
+            let center = {x: iconCanvas.width > boundingBox.width ? iconCanvas.width - boundingBox.width : 0, y: iconCanvas.height > boundingBox.height ? iconCanvas.height - boundingBox.height : 0};
+            
+            let iconContext = iconCanvas.getContext("2d");
+            iconContext.imageSmoothingEnabled = false;
+            
             let resources = assets[i].resources;
+            resources.sort(iconCanvas.width > boundingBox.width ? (a, b) => a.y - b.y : (a, b) => a.x - b.x);
+            
             let offset = {x: 0, y: 0};
-            for (let r = 0; r < 1; r++) {
-                // ok if i wanted to fit all resources of an asset into one square, i *think* i'd
-                // have to merge the images into one, and then render that scaled, or else do a fuck
-                // ton of complicated math. so instead i'm just gonna crop them. good enough for a preview.
+            for (let r = 0; r < resources.length; r++) {
                 if (r != 0) {
                     offset.x = resources[r].x - resources[r - 1].x;
                     offset.y = resources[r].y - resources[r - 1].y;
                 }
-                // TODO: for multi-resource assets, draw the first asset normally then crop the rest to fit inside the border
-                // i couldn't figure this out, so as a bandaid fix i just draw the first resource and drop the rest.
-                
-                // context.drawImage(resources[r].img, offset.x >= 0 ? offset.x : resources[r].img.width + offset.x, 0, resources[r].img.width, resources[r].img.height, x + offset.x, y + offset.y, 90, 90);
-                // TODO: fix scaling so that it keeps the correct aspect ratio (just calc the correct scale parameters so that 90 is the max, simple algebra)
-                context.drawImage(resources[r].img, x + offset.x + 4, y + offset.y + 4, 80, 80);
+
+                iconContext.drawImage(resources[r].img, offset.x + center.x / 2, offset.y + center.y / 2, resources[r].img.width * resources[r].scale, resources[r].img.height * resources[r].scale);
             }
+
+            context.fillStyle = "#d9b16c";
+            context.fillRect(x, y, 90, 90);
+            context.drawImage(iconCanvas, x + 4, y + 4, 80, 80);
             
             context.drawImage(assets[i].isEnabled ? this.sprites.asset_border_on : this.sprites.asset_border_off, x, y);
             

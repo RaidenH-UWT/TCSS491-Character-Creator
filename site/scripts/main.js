@@ -1,4 +1,4 @@
-const DEBUG = {error: true, loader: false, io: false, ui: false, step: false, other: false};
+const DEBUG = {error: true, loader: false, io: false, ui: false, visualization: false, step: false, other: false};
 
 const assetManager = new AssetManager();
 const gameEngine = new GameEngine();
@@ -67,12 +67,13 @@ async function startGame() {
         }
         
         if (DEBUG.other) console.log("starting");
-        gameEngine.start();
         
         if (DEBUG.step) {
             gameEngine.draw();
             
             showDebug();
+        } else {
+            gameEngine.start();
         }
     });
 }

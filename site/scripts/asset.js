@@ -24,7 +24,7 @@ class Asset {
                 img = resource.data;
             }
             
-            this.resources.push({asset: this.config.name, img: img, layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale});
+            this.resources.push({asset: {name: this.config.name, x: this.x, y: this.y}, img: img, layer: resource.layer, x: resource.x, y: resource.y, scale: resource.scale});
         }
     }
     
@@ -37,5 +37,14 @@ class Asset {
             if (DEBUG.other) console.log(resource.img);
             context.drawImage(resource.img, this.x + resource.x, this.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
         }
+    }
+    
+    getBoundingBox() {
+        let x1List = this.resources.map((a) => a.x + this.x);
+        let y1List = this.resources.map((a) => a.y + this.y);
+        let x2List = this.resources.map((a) => a.img.width * a.scale + a.x + this.x);
+        let y2List = this.resources.map((a) => a.img.height * a.scale + a.y + this.y);
+        let box = {x: Math.min(...x1List), y: Math.min(...y1List), width: Math.max(...x2List) - Math.min(...x1List), height: Math.max(...y2List) - Math.min(...y1List)};
+        return box;
     }
 }

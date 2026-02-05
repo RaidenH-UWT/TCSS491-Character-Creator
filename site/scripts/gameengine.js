@@ -13,7 +13,7 @@ class GameEngine {
         
         // Information on the input
         this.click = null;
-        this.mouse = null;
+        this.mouse = {x: 0, y: 0};
         this.wheel = null;
         this.keys = {};
         
@@ -90,7 +90,7 @@ class GameEngine {
 
         // queue up enabled assets for drawing
         let resources = [];
-        for (asset of this.assets) {
+        for (let asset of this.assets) {
             if (asset.isEnabled) {
                 resources.push(asset.resources);
             }
@@ -101,12 +101,26 @@ class GameEngine {
         resources.sort((a, b) => a.layer - b.layer);
         
         // draw resources in order
-        // TODO: multi-resource assets seem to have something funky going on, where they aren't offset properly. check this out
-        for (resource of resources) {
-            this.context.drawImage(resource.img, asset.x + resource.x, asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
+        for (let resource of resources) {
+            this.context.drawImage(resource.img, resource.asset.x + resource.x, resource.asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
         }
         
         this.ui.draw(this.context);
+        
+        if (DEBUG.visualization) {
+            for (asset of this.assets) {
+                if (asset.isEnabled) {
+                    let box = asset.getBoundingBox();
+                    this.context.strokeStyle = "#00FF00";
+                    this.lineWidth = 2
+                    this.context.strokeRect(box.x, box.y, box.width, box.height);
+                }
+            }
+            
+            this.context.fillStyle = "white";
+            this.context.font = "12pt serif";
+            this.context.fillText(`(${this.mouse.x}, ${this.mouse.y})`, this.mouse.x, this.mouse.y);
+        }
     };
     
     update() {
