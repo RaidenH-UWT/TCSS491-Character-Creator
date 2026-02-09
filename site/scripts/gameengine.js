@@ -79,6 +79,9 @@ class GameEngine {
             }
             this.click = getXandY(e);
             this.ui.handleClick(this.click.x, this.click.y);
+            if (this.popup && this.insideBox(this.click, this.popup)) {
+                this.popup.removeFromWorld = true;
+            }
         });
         
         this.context.canvas.addEventListener("wheel", e => {
@@ -181,6 +184,7 @@ class GameEngine {
     };
     
     insideBox(pos, box) {
+        if (box instanceof Popup) console.log("inside?", pos, box);
         return pos.x >= box.x && pos.x <= box.x + box.width && pos.y >= box.y && pos.y <= box.y + box.height
     }
 };
