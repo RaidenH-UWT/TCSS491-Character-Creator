@@ -29,7 +29,10 @@ class Asset {
     }
     
     update() {
-        // handle movement in here
+        for (let resource of this.resources) {
+            resource.asset.x = this.x;
+            resource.asset.y = this.y;
+        }
     }
     
     draw(context) {

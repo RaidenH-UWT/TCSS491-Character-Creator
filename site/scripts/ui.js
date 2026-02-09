@@ -153,8 +153,12 @@ class UserInterface {
                     // calculate the index of the asset within the displayed assets, from the coordinates
                     let index = Math.floor(clickX / 128) + (clickY >= 923 ? 6 : 0) - 1;
                     // toggle isEnabled if there's an asset there
-                    if (this.assets.length > 12*this.page + index) {
-                        this.assets[12*this.page + index].isEnabled = !this.assets[12*this.page + index].isEnabled;
+                    let assetIndex = 12*this.page + index
+                    if (this.assets.length > assetIndex) {
+                        this.assets[assetIndex].isEnabled = !this.assets[assetIndex].isEnabled;
+                        this.assets[assetIndex].x = 0;
+                        this.assets[assetIndex].y = 0;
+                        this.assets[assetIndex].update();
                     }
                 }
             }
