@@ -1,3 +1,19 @@
+const blend = {
+    normal: (a, b) => b,
+    multiply: (a, b) => a * b,
+    divide: (a, b) => a == 0 ? 1 : b / a,
+    addition: (a, b) => Math.min(1, a + b),
+    subtract: (a, b) => Math.max(0, a - b),
+    inverseSubtract: (a, b) => Math.max(0, b - a),
+    difference: (a, b) => Math.abs(a - b),
+    darkenOnly: (a, b) => Math.min(a, b),
+    lightenOnly: (a, b) => Math.max(a, b),
+    screen: (a, b) => 1 - (1 - a) * (1 - b),
+    overlay: (a, b) => a < 0.5 ? 2 * a * b : 1 - 2 * (1 - a) * (1 - b),
+    hardLight: (a, b) => b < 0.5 ? 2 * a * b : 1 - 2 * (1 - a) * (1 - b),
+    softLight: (a, b) => (1 - 2 * b) * a * a + 2 * b * a // pegtop implementation from Wikipedia
+};
+
 function hsv(args) {
     if (args.length == 3) {
         return {h: args[0], s: args[1], v: args[2]};
@@ -60,10 +76,13 @@ function rgb(args) {
 }
 
 function colorToCSS(obj) {
+    // CSS color uses 0-100 for S/L, but it's usually 0.0-1.0 (both are percentages) (H is 0-360)
     if ('r' in obj && 'g' in obj && 'b' in obj) {
         return `rgb(${obj.r} ${obj.g} ${obj.b})`;
     } else if ('h' in obj && 's' in obj && 'l' in obj) {
         return `hsl(${obj.h} ${obj.s * 100} ${obj.l * 100})`;
+    } else if ('h' in obj && 's' in obj && 'v' in obj) {
+        return colorToCSS(hsl(obj));
     }
 }
 
@@ -83,7 +102,6 @@ function hueShift(img, shift) {
         data[i] = back.r;
         data[i+1] = back.g;
         data[i+2] = back.b;
-        data[i+3] = data[i+3];
     }
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.putImageData(imageData, 0, 0);
@@ -93,6 +111,26 @@ function hueShift(img, shift) {
     return newImg;
 }
 
-function setColor(img, color) {
+function setColor(img, color, blendMode) {
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const context = canvas.getContext("2d");
+    context.drawImage(img, 0, 0);
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
     
+    const col = rgb(color);
+    
+    for (let i = 0; i < data.length; i += 4) {
+        data[i] = Math.round(blend[blendMode](data[i] / 255, col.r / 255) * 255);
+        data[i+1] = Math.round(blend[blendMode](data[i+1] / 255, col.g / 255) * 255);
+        data[i+2] = Math.round(blend[blendMode](data[i+2] / 255, col.b / 255) * 255);
+    }
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.putImageData(imageData, 0, 0);
+    const newImg = new Image();
+    newImg.src = canvas.toDataURL();
+    
+    return newImg;
 }
