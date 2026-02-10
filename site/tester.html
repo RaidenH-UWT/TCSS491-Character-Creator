@@ -14,15 +14,20 @@
         <script>
             const canvas = document.getElementById("testCanvas");
             const context = canvas.getContext("2d");
-            const img = document.getElementById("testImage");
-                        
-            context.fillStyle = "white";
-            context.fillRect(0, 0, 1024, 768);
-            context.drawImage(img, 0, 0);
+            const img = document.getElementById("testImage");            
             
-            console.log(hsv([20, 40, 60]));
-            console.log(hsv({r: 10, g: 30, b: 50}));
-            console.log(hsv("#FFBB88"));
+            img.addEventListener("load", () => {
+                // CSS color uses 0-100 for S/L, but it's usually 0.0-1.0 (both are percentages) (H is 0-360)
+                context.fillStyle = "white";
+                context.fillRect(0, 0, 1024, 768);
+                context.drawImage(img, 0, 0);
+                
+                let newImg = hueShift(img, 300);
+                
+                newImg.addEventListener("load", () => {
+                    context.drawImage(newImg, 0, 0);
+                });
+            });
         </script>
     </body>
 </html>
