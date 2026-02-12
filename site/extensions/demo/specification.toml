@@ -108,8 +108,8 @@ version = "1.1.0"
 [[assets]]
     name = ":3"
     category = "Faces"
-    type = "static"
-    colorMode = "set"
+    type = "movable"
+    colorMode = "static"
     
     [[assets.resources]]
         path = "/resources/faces/colon_three.png"
@@ -120,7 +120,7 @@ version = "1.1.0"
 [[assets]]
     name = "Smile"
     category = "Faces"
-    type = "static"
+    type = "movable"
     colorMode = "static"
     
     [[assets.resources]]
@@ -171,7 +171,8 @@ version = "1.1.0"
     name = "Pixel Hat"
     category = "Hats"
     type = "movable"
-    colorMode = "static"
+    colorMode = "set"
+    colorOptions = ["#77ff22", "#e943ff", "#278fff", "#ff930e"]
     
     [[assets.resources]]
         path = "/resources/hats/pixel_hat.png"

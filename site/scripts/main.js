@@ -45,7 +45,11 @@ async function startGame() {
     assetManager.queueDownload("./assets/asset_border_off.png");
     assetManager.queueDownload("./assets/arrow_left.png");
     assetManager.queueDownload("./assets/arrow_right.png");
-    
+    assetManager.queueDownload("./assets/small_arrow_left.png");
+    assetManager.queueDownload("./assets/small_arrow_right.png");
+    assetManager.queueDownload("./assets/small_arrow_up.png");
+    assetManager.queueDownload("./assets/small_arrow_down.png");
+    assetManager.queueDownload("./assets/pointer.png");
     
     assetManager.downloadAll(function() {
         const ui = new UserInterface(gameEngine);

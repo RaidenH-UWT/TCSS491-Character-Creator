@@ -133,7 +133,6 @@ class UserInterface {
     
     handleClick(clickX, clickY) {
         if (clickY < 768) {
-            // TODO: handle movable assets and maybe asset customization in here
         } else if (clickY >= 768 && clickY <= 816) {
             let selection = this.tabWidths.filter((pair) => clickX >= pair.start - 8 && clickX <= pair.end + 8);
             if (selection) {
@@ -156,6 +155,7 @@ class UserInterface {
                     let assetIndex = 12*this.page + index
                     if (this.assets.length > assetIndex) {
                         this.assets[assetIndex].isEnabled = !this.assets[assetIndex].isEnabled;
+                        this.assets[assetIndex].color = undefined;
                         this.assets[assetIndex].x = 0;
                         this.assets[assetIndex].y = 0;
                         this.assets[assetIndex].update();

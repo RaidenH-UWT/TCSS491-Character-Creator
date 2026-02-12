@@ -60,6 +60,7 @@ class GameEngine {
             }
             this.mouseDown = true;
             this.mouseDelta = {x: 0, y: 0};
+            this.clickTime = 0;
             this.mouse = getXandY(e);
         });
         
@@ -79,9 +80,6 @@ class GameEngine {
             }
             this.click = getXandY(e);
             this.ui.handleClick(this.click.x, this.click.y);
-            if (this.popup && this.insideBox(this.click, this.popup)) {
-                this.popup.removeFromWorld = true;
-            }
         });
         
         this.context.canvas.addEventListener("wheel", e => {
@@ -130,7 +128,8 @@ class GameEngine {
         
         // draw resources in order
         for (let resource of resources) {
-            this.context.drawImage(resource.img, resource.asset.x + resource.x, resource.asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
+            this.context.drawImage(typeof resource.color != "undefined" ? resource.modImg : resource.img,
+                                   resource.asset.x + resource.x, resource.asset.y + resource.y, resource.scale * resource.img.width, resource.scale * resource.img.height);
         }
         
         this.ui.draw(this.context);
@@ -160,20 +159,30 @@ class GameEngine {
         
         let assetCount = this.assets.length;
         // all enabled assets beneath the mouse
-        let focusedAssets = this.assets.filter((a) => a.isEnabled && this.insideBox(this.mouse, a.getBoundingBox()));
+        let focusedAssets = this.assets.filter((a) => a.isEnabled && insideBox(this.mouse, a.getBoundingBox()));
         // sort so the topmost asset is first
         focusedAssets.sort((a, b) => Math.max(...b.resources.map((b) => b.layer)) - Math.max(...a.resources.map((a) => a.layer)));
+        
+        // this is a fucking mess of spaghetti conditions.
+        // it's supposed to add a popup if there isn't one, and remove a popup if the x is clicked. that's it. blegh.
         if (this.mouseDown && focusedAssets[0]?.config.type == "movable" && this.clickTime >= 0.05) {
             focusedAssets[0].x += this.mouseDelta.x;
             focusedAssets[0].y += this.mouseDelta.y;
             focusedAssets[0].update();
-        } else if (this.mouseDown && focusedAssets[0]) {
+        } else if (this.popup != null && insideBox(this.click, this.popup)) {
+            this.popup.handleClick(this.click);
+            // TODO: BE CAREFUL WITH THESE NULL ASSIGNMENTS, THESE MIGHT BREAK SOMETHING IDK. HERE'S A REMINDER IF SO
+            this.click = null;
+        } else if (typeof focusedAssets[0] != "undefined" && insideBox(this.click, focusedAssets[0].getBoundingBox()) 
+            && ((this.popup != null && !insideBox(this.mouse, this.popup) || (this.popup == null)))) {
             this.popup = new Popup(focusedAssets[0]);
+            this.click = null;
         }
         
         if (this.popup?.removeFromWorld) {
             this.popup = null;
         }
+        
         this.mouseDelta = {x: 0, y: 0};
     };
     
@@ -182,11 +191,6 @@ class GameEngine {
         this.update();
         this.draw();
     };
-    
-    insideBox(pos, box) {
-        if (box instanceof Popup) console.log("inside?", pos, box);
-        return pos.x >= box.x && pos.x <= box.x + box.width && pos.y >= box.y && pos.y <= box.y + box.height
-    }
 };
 
 // KV Le was here :)

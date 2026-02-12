@@ -32,6 +32,10 @@ class Asset {
         for (let resource of this.resources) {
             resource.asset.x = this.x;
             resource.asset.y = this.y;
+            if (typeof this.color != "undefined" && resource.color != this.color) { // TODO: if implement per-layer coloration toggle, check it here
+                resource.color = this.color;
+                resource.modImg = typeof resource.color == "string" ? setColor(resource.img, resource.color, "addition") : hueShift(resource.img, resource.color);
+            }
         }
     }
     

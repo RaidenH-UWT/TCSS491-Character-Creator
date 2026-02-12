@@ -7,7 +7,7 @@
         <link href="./style.css" rel="stylesheet" type="text/css" media="all"> <!-- stylesheet import -->
     </head>
     <body>
-        <img id="testImage" src="./extensions/demo/resources/backgrounds/space.png">
+        <img id="testImage" src="./extensions/demo/resources/bottoms/pants.png">
         <canvas id="testCanvas" width="1024" height="768" style="margin: auto;"></canvas>
         <input id="colorPicker" type="color">
         <select id="blendMode">
@@ -44,7 +44,6 @@
             };
             
             img.addEventListener("load", () => {
-                // CSS color uses 0-100 for S/L, but it's usually 0.0-1.0 (both are percentages) (H is 0-360)
                 context.fillStyle = "white";
                 context.fillRect(0, 0, 1024, 768);
                 context.drawImage(img, 0, 0);
