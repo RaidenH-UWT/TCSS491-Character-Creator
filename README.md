@@ -63,3 +63,5 @@ that much for performance (i know, it's fine, i just want to anyway)
 - ooooo maybe add a way to share creations? like, maybe including loaded extensions, or requiring loading dependencies first? would be sick.
 
 - get some people to try making extension packs. :3
+
+- Swap `picker` option to be `h/s/v` or a combination, just let the designer choose! (implement in `hueShift()`, just add 2 more paramsw/ defaults)
