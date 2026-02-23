@@ -36,10 +36,10 @@ that much for performance (i know, it's fine, i just want to anyway)
 
 - Implement changing asset settings
     - Decide if `colorMode = picker` should allow full HSV selection or just hue (HSV could fuck up lineart)
-    - probably going to need to do it by manually modifying pixel data ([doc](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData), [example](https://codepal.ai/code-generator/query/FZN6Fu3l/javascript-function-recolor-image))
+    - probably going to need to do it by manually modifying pixel data ([doc](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData))
 
 - Implement pic exporting
-    - Just grab the creator region of the canvas and save as png. easy <- has no idea and will probably be badly surprised
+    - Just grab the creator region of the canvas and save as png. easy <- has no idea and will probably be badly surprised <- was actually pleasantly surprised and went on to use the technique for other things
 
 **Final:**
 
