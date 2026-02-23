@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <title>TCSS491 Character Creator</title>
+        <link rel="icon" type="image/png" href="./icon.png"/> <!-- sets tab icon -->
+        <link href="./style.css" rel="stylesheet" type="text/css" media="all"> <!-- stylesheet import -->
+    </head>
+    <body>
+        <img id="testImage" src="./extensions/demo/resources/backgrounds/space.png">
+        <canvas id="testCanvas" width="1024" height="768" style="margin: auto;"></canvas>
+        
+        <script src="./scripts/colormath.js"></script>
+        <script>
+            const canvas = document.getElementById("testCanvas");
+            const context = canvas.getContext("2d");
+            const img = document.getElementById("testImage");
+                        
+            context.fillStyle = "white";
+            context.fillRect(0, 0, 1024, 768);
+            context.drawImage(img, 0, 0);
+            
+            console.log(hsv([20, 40, 60]));
+            console.log(hsv({r: 10, g: 30, b: 50}));
+            console.log(hsv("#FFBB88"));
+        </script>
+    </body>
+</html>

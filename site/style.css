@@ -9,7 +9,6 @@
 body {
     background-color: var(--bg-color);
     background-image: repeating-radial-gradient(circle at 75% 50%, #e5074d, #320112);
-    background-image: url("./assets/PROTOTYPE.png");
 }
 
 main {

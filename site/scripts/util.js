@@ -19,5 +19,5 @@ function insideBox(pos, box) {
     if (typeof pos == "undefined" || typeof box == "undefined" || pos == null || box == null) {
         return false;
     }
-    return pos.x >= box.x && pos.x <= box.x + box.width && pos.y >= box.y && pos.y <= box.y + box.height
+    return pos.x >= box.x && pos.x <= box.x + box.width && pos.y >= box.y && pos.y <= box.y + box.height;
 }
